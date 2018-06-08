@@ -1,10 +1,10 @@
 {% extends "layout.html" %}
 {% block body %}
 <div style="align-content: center; width: 70%; margin: auto; margin-top: 20px;">
-    <form>
+    <form method="post" action="{{url_for('top.login')}}">
         <div class="form-group">
             <label for="username">User Name</label>
-            <input type="text" class="form-control" id="username" aria-describedby="username-help"
+            <input type="text" class="form-control" id="username" aria-describedby="username-help" name="username"
                    placeholder="Enter user name">
 
             <small id="username-help" class="form-text text-muted">{{error_message}}</small>

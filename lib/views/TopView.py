@@ -15,7 +15,7 @@ def index2():
     return render_template('index.html')
 
 
-@top_bp.route('register', methods=['GET'])
+@top_bp.route('/register', methods=['GET'])
 def register_page():
     return render_template('register.html')
 
@@ -34,3 +34,11 @@ def register():
         return render_template('register.html', error_message="ユーザー名が重複しています")
     return redirect(url_for('top.index'))
 
+@top_bp.route('/login', methods=['POST'])
+def login():
+    user_name = request.form.get('username')
+    password = request.form.get('password')
+    if user_model.login(user_name, password):
+        return redirect(url_for('users.user_index'))
+    else:
+        return render_template('index.html')
