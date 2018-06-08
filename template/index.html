@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block body %}
+<div style="align-content: center; width: 70%; margin: auto; margin-top: 20px;">
+    <form>
+        <div class="form-group">
+            <label for="username">User Name</label>
+            <input type="text" class="form-control" id="username" aria-describedby="username-help"
+                   placeholder="Enter user name">
+
+            <small id="username-help" class="form-text text-muted">{{error_message}}</small>
+
+        </div>
+        <div class="form-group">
+            <label for="password1">Input password</label>
+            <input type="password" class="form-control" id="password1" placeholder="Password" name="password">
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+    <p>or</p>
+        <button type="submit" class="btn btn-success" onclick="window.location = '{{url_for("top.register_page")}}'">Register</button>
+</div>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[packages]
+flask = "*"
+scikit-learn = "*"
+flask-sqlalchemy = "*"
+pymysql = "*"
+flask-script = "*"
+
+[requires]
+python_version = "3.5.1"
+
+[dev-packages]
+
+[scripts]
+start = 'python server.py runserver --debug'
+init_db = 'python server.py init_db'
+
