@@ -9,6 +9,9 @@ scikit-learn = "*"
 flask-sqlalchemy = "*"
 pymysql = "*"
 flask-script = "*"
+gensim = "*"
+janome = "*"
+python-twitter = "*"
 
 [requires]
 python_version = "3.5.1"
@@ -18,4 +21,3 @@ python_version = "3.5.1"
 [scripts]
 start = 'python server.py runserver --debug'
 init_db = 'python server.py init_db'
-
