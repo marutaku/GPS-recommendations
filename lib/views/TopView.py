@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, session, g
 from lib.models.UserModel import UserModel
 
 top_bp = Blueprint('top', __name__, url_prefix='/')
@@ -38,7 +38,12 @@ def register():
 def login():
     user_name = request.form.get('username')
     password = request.form.get('password')
-    if user_model.login(user_name, password):
-        return redirect(url_for('users.user_index'))
-    else:
+    user = user_model.login(user_name, password)
+    if not id:
+        # Login failed
         return render_template('index.html')
+    else:
+        # Login success
+        session['user_name'] = user.name
+        session['user_id'] = user.id
+        return redirect(url_for('users.user_index'))

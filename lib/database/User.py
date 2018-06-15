@@ -26,3 +26,4 @@ class UserDB(object):
     def init():
         db.create_all()
 
+

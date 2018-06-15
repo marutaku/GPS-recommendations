@@ -9,7 +9,7 @@ class UserModel(object):
         hashed_passoword = self.hash_password(password)
         user = self.user_db.get_user_by_name(name)[0]
         if (user.password == hashed_passoword):
-            return True
+            return user
         else:
             return False
 
@@ -25,4 +25,3 @@ class UserModel(object):
         md5 = hashlib.md5()
         md5.update(password.encode('utf-8'))
         return md5.hexdigest()
-
