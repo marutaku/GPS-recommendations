@@ -1,0 +1,11 @@
+/lib/config.py
+/TopicModel/config.py
+__pycache__/
+.DS_Store
+*.py[cod]
+*$py.class
+.python-version
+npm-debug.log
+.idea/*
+
+

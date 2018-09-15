@@ -19,8 +19,7 @@ class TwitterData(object):
         return tl
 
     def get_user_tweet(self,screen_name=None, count=200):
-        response = self.api.GetUserTimeline(screen_name=screen_name, count=count)
-        return self._parse_tweet_array(response)
+        return self.api.GetUserTimeline(screen_name=screen_name, count=count)
 
 
 
@@ -42,7 +41,7 @@ if __name__ == '__main__':
     #     print(i)
 
     for i in app.get_user_tweet('he_ta_reeee'):
-        print(i)
+        print(i.text)
 
 
 

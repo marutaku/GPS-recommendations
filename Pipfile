@@ -12,6 +12,8 @@ flask-script = "*"
 gensim = "*"
 janome = "*"
 python-twitter = "*"
+jupyter = "*"
+cython = "*"
 
 [requires]
 python_version = "3.5.1"
