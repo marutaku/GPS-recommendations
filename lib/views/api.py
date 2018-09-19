@@ -8,9 +8,9 @@ api_bp = Blueprint('api', __name__, url_prefix='/api')
 def save_visited_place():
     place_model = Place()
     location_model = LocationModel()
-    user_id = request.form['user_id']
-    latitude = request.form['latitude']
-    longitude = request.form['longitude']
+    user_id = request.json['user_id']
+    latitude = request.json['latitude']
+    longitude = request.json['longitude']
     location_model.insert_location(user_id, latitude, longitude)
     place_model.detect_place(user_id)
     return jsonify(

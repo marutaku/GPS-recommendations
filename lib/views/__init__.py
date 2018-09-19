@@ -26,5 +26,8 @@ def init_app(app):
     # Register Blueprint
     from lib.views.TopView import top_bp
     from lib.views.UserViews import user_bp
+    from lib.views.api import api_bp
     app.register_blueprint(user_bp)
     app.register_blueprint(top_bp)
+    app.register_blueprint(api_bp)
+

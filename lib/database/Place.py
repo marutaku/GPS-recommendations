@@ -1,8 +1,9 @@
 from lib.core import db
 
 class Place(db.Model):
-    id = db.Column(db.String, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     place_name = db.Column(db.String(100), nullable=False, unique=True)
+    palce_id = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(256), nullable=True, server_default='')
     create_at = db.Column(db.TIMESTAMP, server_default=db.text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))
 

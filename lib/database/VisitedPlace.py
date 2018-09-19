@@ -7,7 +7,7 @@ class VisitedPlace(db.Model):
     __tablename__ = 'visited_place'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', onupdate='CASCADE', ondelete='CASCADE'))
-    place_id = db.Column(db.String, db.ForeignKey('place.id', onupdate='CASCADE', ondelete='CASCADE'))
+    place_id = db.Column(db.Integer, db.ForeignKey('place.id', onupdate='CASCADE', ondelete='CASCADE'))
     create_at = db.Column(db.DateTime, server_default=db.text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))
     place = relationship('Place')
     user = relationship('User')

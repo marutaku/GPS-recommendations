@@ -2,6 +2,7 @@ from flask_script import Manager, Server, prompt_bool
 from lib import app
 from lib.database.User import UserDB
 from lib.database.Place import PlaceDB
+from lib.database.Location import LocationDB
 from lib.database.VisitedPlace import VisitedPlaceDB
 
 manager = Manager(app)
