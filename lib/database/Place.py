@@ -12,11 +12,14 @@ class PlaceDB(object):
     def check_place(self, place_name):
         return len(db.session.query(Place).filter(Place.place_name == place_name).all()) != 0
 
+    def get_place_by_id(self, place_id):
+        return db.session.query(Place).filter(Place.palce_id == place_id).all()
+
     def get_place_id(self, place_name):
         return db.session.query(Place).filter(Place.place_name == place_name).all()
 
-    def insert_place(self, place_name, description = ''):
-        place = Place(place_name = place_name, description = description)
+    def insert_place(self, place_name, place_id, description = ''):
+        place = Place(place_name = place_name, palce_id=place_id, description = description)
         db.session.add(place)
         db.session.commit()
 

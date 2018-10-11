@@ -17,6 +17,20 @@ def save_visited_place():
         {'location': 'OK'}
     )
 
+@api_bp.route('visited', methods=['POST'])
+def post_visited_place():
+    place_model = Place()
+    user_id = request.json['user_id']
+    latitude = request.json['latitude']
+    longitude = request.json['longitude']
+    place_model.insert_visited_place(user_id, latitude, longitude)
+    return jsonify({
+        'place': 'ok'
+    })
+
+
+
+
 
 
     
