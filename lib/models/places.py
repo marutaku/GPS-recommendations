@@ -3,6 +3,7 @@ from lib.database.Location import LocationDB
 from lib.database.Place import PlaceDB
 from lib.util.geo import GEOUtil
 from lib.models.Foursquare import Foursquare
+from lib import app
 
 
 class Place(object):
@@ -43,6 +44,7 @@ class Place(object):
 
     def insert_visited_place(self, user_id, latitude, longitude):
         place_json = self.fetch_place(latitude, longitude)
+        app.logger.info('%s', place_json)
         places = self.place_db.get_place_by_id(place_json['id'])
         if len(places) == 0:
             self.place_db.insert_place(place_json['name'], place_json['id'])

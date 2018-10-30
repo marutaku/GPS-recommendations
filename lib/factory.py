@@ -2,6 +2,7 @@
 from flask import Flask
 from lib import views
 from lib.core import db
+from logging.config import dictConfig
 
 def create_app(package_name):
     app = Flask(package_name, template_folder = '../template')
