@@ -1,7 +1,7 @@
 import requests
 from urllib.parse import urljoin
 from lib.config import FOURSQUARE_SECRET, FOURSQUARE_CLIENT_ID
-import datetime
+import datetime, json
 class Foursquare(object):
 
     def  __init__(self):
@@ -22,7 +22,7 @@ class Foursquare(object):
         )
         try:
             req = requests.get(url, params=params)
-            result = req.json()
+            result = json.loads(req.text)
             return result
         except requests.exceptions.HTTPError as e:
             print(e)
