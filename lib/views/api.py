@@ -31,7 +31,7 @@ def post_visited_place():
     print('====arrivalDate: {} ====='.format(arrival_date_str))
     print('====departureDate: {} ====='.format(departure_date_str))
     print('Request catch.  user_id: {}'.format(user_id))
-    place_model.insert_visited_place(user_id, latitude, longitude)
+    place_model.insert_visited_place(user_id, latitude, longitude, arrival_date, departure_date)
     return jsonify({
         'place': 'ok'
     })
