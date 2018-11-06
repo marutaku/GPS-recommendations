@@ -49,7 +49,7 @@ class Place(object):
         print('=' * 30)
         places = self.place_db.get_place_by_id(place_json['id'])
         if len(places) == 0:
-            self.place_db.insert_place(place_json['name'], place_json['id'])
+            self.place_db.insert_place(place_json['name'], place_json['id'], place_json['categories'][0]['shortName'])
             place = self.place_db.get_place_by_id(place_json['id'])[0]
         else:
             place = places[0]

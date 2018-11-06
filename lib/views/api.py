@@ -23,6 +23,11 @@ def post_visited_place():
     user_id = request.json['user_id']
     latitude = request.json['latitude']
     longitude = request.json['longitude']
+    arrivalDate = request.json['arraivalDate']
+    departureDate = request.json['departureDate']
+    print('====arrivalDate: {} ====='.format(arrivalDate))
+    print('====departureDate: {} ====='.format(departureDate))
+    print('Request catch.  user_id: {}'.format(user_id))
     place_model.insert_visited_place(user_id, latitude, longitude)
     return jsonify({
         'place': 'ok'
