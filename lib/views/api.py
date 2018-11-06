@@ -1,6 +1,7 @@
 from flask import Blueprint, g, request, jsonify
 from lib.models.places import Place
 from lib.models.Location import LocationModel
+from datetime import datetime
 
 api_bp = Blueprint('api', __name__, url_prefix='/api')
 
@@ -23,10 +24,12 @@ def post_visited_place():
     user_id = request.json['user_id']
     latitude = request.json['latitude']
     longitude = request.json['longitude']
-    arrivalDate = request.json['arraivalDate']
-    departureDate = request.json['departureDate']
-    print('====arrivalDate: {} ====='.format(arrivalDate))
-    print('====departureDate: {} ====='.format(departureDate))
+    arrival_date_str = request.json['arraivalDate']
+    departure_date_str = request.json['departureDate']
+    arrival_date = datetime.strptime(arrival_date_str, '%Y-%m-%d %H:%M:%S')
+    departure_date = datetime.strptime(departure_date_str, '%Y-%m-%d %H:%M:%S')
+    print('====arrivalDate: {} ====='.format(arrival_date_str))
+    print('====departureDate: {} ====='.format(departure_date_str))
     print('Request catch.  user_id: {}'.format(user_id))
     place_model.insert_visited_place(user_id, latitude, longitude)
     return jsonify({

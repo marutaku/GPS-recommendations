@@ -8,14 +8,24 @@ class VisitedPlace(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', onupdate='CASCADE', ondelete='CASCADE'))
     place_id = db.Column(db.Integer, db.ForeignKey('place.id', onupdate='CASCADE', ondelete='CASCADE'))
+    arrival_date = db.Column(db.DateTime, nullable=False)
+    departure_date = db.Column(db.DateTime, nullable=False)
+    visited_time = db.Column(db.Time, nullable=False)
     create_at = db.Column(db.DateTime, server_default=db.text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))
     place = relationship('Place')
     user = relationship('User')
 
 
 class VisitedPlaceDB(object):
-    def insert_visited_place(self, user_id, place_id):
-        visited_place = VisitedPlace(user_id=user_id, place_id=place_id)
+    def insert_visited_place(self, user_id, place_id, arrival_date, departure_date):
+        visited_time = departure_date - arrival_date
+        visited_place = VisitedPlace(
+            user_id=user_id,
+            place_id=place_id,
+            arrival_date=arrival_date,
+            departure_date=departure_date,
+            visited_time=visited_time
+        )
         db.session.add(visited_place)
         db.session.commit()
 

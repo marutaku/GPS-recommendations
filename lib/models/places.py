@@ -34,17 +34,18 @@ class Place(object):
             return
         else:
             return
+
     def fetch_place(self, latitude, longitude):
         result_json = self.foursquare.search_place(
-                latitude,
-                longitude
-            )
+            latitude,
+            longitude
+        )
         place = result_json['response']['venues'][0]
         return place
 
-    def insert_visited_place(self, user_id, latitude, longitude):
+    def insert_visited_place(self, user_id, latitude, longitude, arrival_date, departure_date):
         place_json = self.fetch_place(latitude, longitude)
-        print('='*30)
+        print('=' * 30)
         print(place_json)
         print('=' * 30)
         places = self.place_db.get_place_by_id(place_json['id'])
@@ -53,6 +54,5 @@ class Place(object):
             place = self.place_db.get_place_by_id(place_json['id'])[0]
         else:
             place = places[0]
-        self.visited_db.insert_visited_place(user_id, place.id)
+        self.visited_db.insert_visited_place(user_id, place.id, arrival_date, departure_date)
         return
-
