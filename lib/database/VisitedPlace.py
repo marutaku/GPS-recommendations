@@ -1,6 +1,9 @@
 from lib.core import db
 from sqlalchemy import func
 from sqlalchemy.orm import relationship
+from datetime import datetime
+
+MISS_DEPARTURE_VALUE = datetime.strptime('4001-01-01 09:00:00', '%Y-%m-%d %H:%M:%S')
 
 
 class VisitedPlace(db.Model):
@@ -8,9 +11,9 @@ class VisitedPlace(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', onupdate='CASCADE', ondelete='CASCADE'))
     place_id = db.Column(db.Integer, db.ForeignKey('place.id', onupdate='CASCADE', ondelete='CASCADE'))
-    arrival_date = db.Column(db.DateTime, nullable=False)
-    departure_date = db.Column(db.DateTime, nullable=False)
-    visited_time = db.Column(db.Time, nullable=False)
+    arrival_date = db.Column(db.DateTime, nullable=True)
+    departure_date = db.Column(db.DateTime, nullable=True)
+    visited_time = db.Column(db.Time, nullable=True)
     create_at = db.Column(db.DateTime, server_default=db.text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))
     place = relationship('Place')
     user = relationship('User')
@@ -19,13 +22,22 @@ class VisitedPlace(db.Model):
 class VisitedPlaceDB(object):
     def insert_visited_place(self, user_id, place_id, arrival_date, departure_date):
         visited_time = departure_date - arrival_date
-        visited_place = VisitedPlace(
-            user_id=user_id,
-            place_id=place_id,
-            arrival_date=arrival_date,
-            departure_date=departure_date,
-            visited_time=visited_time
-        )
+        if departure_date == MISS_DEPARTURE_VALUE:
+            visited_place = VisitedPlace(
+                user_id=user_id,
+                place_id=place_id,
+                arrival_date=arrival_date,
+                departure_date=None,
+                visited_time=None
+            )
+        else:
+            visited_place = VisitedPlace(
+                user_id=user_id,
+                place_id=place_id,
+                arrival_date=arrival_date,
+                departure_date=departure_date,
+                visited_time=visited_time
+            )
         db.session.add(visited_place)
         db.session.commit()
 
