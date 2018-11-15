@@ -54,5 +54,6 @@ class Place(object):
             place = self.place_db.get_place_by_id(place_json['id'])[0]
         else:
             place = places[0]
-        self.visited_db.insert_visited_place(user_id, place.id, arrival_date, departure_date)
+        location_id = self.location_db.insert_location(user_id, latitude, longitude)
+        self.visited_db.insert_visited_place(user_id, place.id, location_id, arrival_date, departure_date)
         return

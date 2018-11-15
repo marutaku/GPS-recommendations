@@ -11,6 +11,7 @@ class VisitedPlace(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', onupdate='CASCADE', ondelete='CASCADE'))
     place_id = db.Column(db.Integer, db.ForeignKey('place.id', onupdate='CASCADE', ondelete='CASCADE'))
+    location_id = db.Column(db.Integer, db.ForeignKey('locations.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=True)
     arrival_date = db.Column(db.DateTime, nullable=True)
     departure_date = db.Column(db.DateTime, nullable=True)
     visited_time = db.Column(db.Time, nullable=True)
@@ -20,12 +21,13 @@ class VisitedPlace(db.Model):
 
 
 class VisitedPlaceDB(object):
-    def insert_visited_place(self, user_id, place_id, arrival_date, departure_date):
+    def insert_visited_place(self, user_id, place_id, location_id, arrival_date, departure_date):
         visited_time = departure_date - arrival_date
         if departure_date == MISS_DEPARTURE_VALUE:
             visited_place = VisitedPlace(
                 user_id=user_id,
                 place_id=place_id,
+                location_id=location_id,
                 arrival_date=arrival_date,
                 departure_date=None,
                 visited_time=None

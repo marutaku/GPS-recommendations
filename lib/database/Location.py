@@ -18,6 +18,7 @@ class LocationDB(object):
         location = Location(user_id=user_id, latitude=latitude, longitude=longitude)
         db.session.add(location)
         db.session.commit()
+        return location.id
 
     def get_location_history(self, user_id, limit=5):
         locations = db.session.query(Location).filter(Location.user_id==user_id)\
