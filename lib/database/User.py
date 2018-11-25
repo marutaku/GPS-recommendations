@@ -22,6 +22,9 @@ class UserDB(object):
     def get_user_by_name(self, name):
         return db.session.query(User).filter(User.name==name).all()
 
+    def get_all_user(self):
+        return db.session.query(User).all()
+
     @staticmethod
     def init():
         db.create_all()

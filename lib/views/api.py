@@ -1,6 +1,7 @@
 from flask import Blueprint, g, request, jsonify
 from lib.models.places import Place
 from lib.models.Location import LocationModel
+from lib.models.Monitoring import MonitoringModel
 from datetime import datetime
 
 api_bp = Blueprint('api', __name__, url_prefix='/api')
@@ -34,6 +35,15 @@ def post_visited_place():
     place_model.insert_visited_place(user_id, latitude, longitude, arrival_date, departure_date)
     return jsonify({
         'place': 'ok'
+    })
+
+@api_bp.route('monitoring', methods=['POST'])
+def insert_monitoring_history():
+    monitoring_model = MonitoringModel()
+    user_id = request.form['user_id']
+    monitoring_model.insert_monitoring(user_id)
+    return jsonify({
+        'result': 'ok'
     })
 
 
