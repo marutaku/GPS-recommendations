@@ -40,7 +40,7 @@ def post_visited_place():
 @api_bp.route('monitoring', methods=['POST'])
 def insert_monitoring_history():
     monitoring_model = MonitoringModel()
-    user_id = request.form['user_id']
+    user_id = request.json['user_id']
     monitoring_model.insert_monitoring(user_id)
     return jsonify({
         'result': 'ok'
