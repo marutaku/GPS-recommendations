@@ -17,6 +17,7 @@ class LocationDB(object):
     def insert_location(self, user_id, latitude, longitude):
         location = Location(user_id=user_id, latitude=latitude, longitude=longitude)
         db.session.add(location)
+        db.session.flush()
         db.session.commit()
         return location.id
 
