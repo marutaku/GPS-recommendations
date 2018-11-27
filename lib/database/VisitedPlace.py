@@ -18,6 +18,7 @@ class VisitedPlace(db.Model):
     create_at = db.Column(db.DateTime, server_default=db.text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))
     place = relationship('Place')
     user = relationship('User')
+    location = relationship('Location')
 
 
 class VisitedPlaceDB(object):
