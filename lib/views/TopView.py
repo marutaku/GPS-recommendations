@@ -29,10 +29,11 @@ def register():
     if password != check_password:
         print('Password does not match')
         return render_template('register.html', error_message="パスワードが一致しません")
-    if user_model.create_user(user_name, password) == False:
-        print('user name is duplicate')
-        return render_template('register.html', error_message="ユーザー名が重複しています")
-    return redirect(url_for('top.index'))
+    try:
+        user_model.create_user(user_name, password)
+        return redirect(url_for('top.index'))
+    except Exception as e:
+        return render_template('register.html', error_message=str(e))
 
 @top_bp.route('/login', methods=['POST'])
 def login():

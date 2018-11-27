@@ -43,9 +43,14 @@ class VisitedPlaceDB(object):
         db.session.add(visited_place)
         db.session.commit()
 
-    def get_visited_places(self, user_id):
+    def get_visited_places_count(self, user_id):
         visited_place = db.session.query(VisitedPlace, func.count(VisitedPlace.place_id)) \
             .filter(VisitedPlace.user_id == user_id).all()
+        return visited_place
+
+    def get_visited_places(self, user_id):
+        visited_place = db.session.query(VisitedPlace) \
+            .filter(VisitedPlace.user_id == user_id).order_by(VisitedPlace.create_at.desc()).all()
         return visited_place
 
     def get_other_user_places(self, user_id):

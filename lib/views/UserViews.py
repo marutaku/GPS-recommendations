@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, session, redirect, url_for, g
 from lib.views import login_required
 from lib.models.CollaborativeFiltering import CollaborativeFilter
+from lib.models.UserModel import UserModel
 
 user_bp = Blueprint('users', __name__, url_prefix='/user')
 
@@ -8,11 +9,14 @@ user_bp = Blueprint('users', __name__, url_prefix='/user')
 @user_bp.route('/')
 def user_index():
     print(g.user)
-    return render_template('user.html')
+    user_model = UserModel()
+    visited_places = user_model.get_all_visited_place(session['user_id'])
+    return render_template('user.html', visited_place=visited_places)
 
 @login_required
 @user_bp.route('/int:<id>')
 def user_page(id):
+    user_model = UserModel()
     return render_template('user.html')
 
 @user_bp.route('/logout', methods=['GET'])

@@ -3,5 +3,30 @@
 <div style="margin: auto;">
     <div>this is user page</div>
     <div>Hello {{session.user_name}}</div>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>場所名</th>
+                <th>行った日</th>
+                <th>滞在時間</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for item in visited_place %}
+                <tr>
+                    <td>{{ item.place.place_name }}</td>
+                    <td>{{ item.create_at }}</td>
+                    <td>{{ item.visited_time }}</td>
+                </tr>
+                <!--<tr>-->
+                    <!--<td>{{ item }}</td>-->
+                    <!--<td>{{ item }}</td>-->
+                    <!--<td>{{ item }}</td>-->
+                <!--</tr>-->
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}

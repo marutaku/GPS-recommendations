@@ -9,7 +9,7 @@ class CollaborativeFilter(object):
         self.user_id = user_id
 
     def _get_visited_items(self):
-        visited_places = self.db.get_visited_places(self.user_id)
+        visited_places = self.db.get_visited_places_count(self.user_id)
         return self._create_place_dictionary(visited_places)
 
     def _get_others_visited_palce(self):
