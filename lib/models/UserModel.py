@@ -13,7 +13,7 @@ class UserModel(object):
         if (user.password == hashed_passoword):
             return user
         else:
-            return False
+            return None
 
     def create_user(self, username, password):
         hashed_password = self.hash_password(password)

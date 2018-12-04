@@ -40,7 +40,7 @@ def login():
     user_name = request.form.get('username')
     password = request.form.get('password')
     user = user_model.login(user_name, password)
-    if not user:
+    if user == None:
         # Login failed
         return render_template('index.html')
     else:
