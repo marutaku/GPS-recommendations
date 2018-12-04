@@ -10,7 +10,7 @@ class UserModel(object):
     def login(self, name, password):
         hashed_passoword = self.hash_password(password)
         user = self.user_db.get_user_by_name(name)
-        if (user[0].password == hashed_passoword):
+        if len(user) != 0 and user[0].password == hashed_passoword:
             return user[0]
         else:
             return None
