@@ -3,6 +3,7 @@ from lib.models.places import Place
 from lib.models.Location import LocationModel
 from lib.models.Monitoring import MonitoringModel
 from datetime import datetime
+from lib.models.CollaborativeFiltering import CollaborativeFilter
 
 api_bp = Blueprint('api', __name__, url_prefix='/api')
 
@@ -37,14 +38,15 @@ def post_visited_place():
         'place': 'ok'
     })
 
-@api_bp.route('monitoring', methods=['POST'])
-def insert_monitoring_history():
-    monitoring_model = MonitoringModel()
+@api_bp.route('recommend', methods=['POST'])
+def get_recommendation():
     user_id = request.json['user_id']
-    monitoring_model.insert_monitoring(user_id)
+    cf = CollaborativeFilter(user_id)
+    recommend = cf.get_recommend(user_id, 30)
     return jsonify({
-        'result': 'ok'
+        'result': recommend
     })
+
 
 
 

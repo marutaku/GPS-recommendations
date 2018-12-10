@@ -1,33 +1,32 @@
 from lib.database.VisitedPlace import VisitedPlaceDB
+from lib.database.Place import PlaceDB
+from lib.database.User import UserDB
 from math import sqrt
 
 
 class CollaborativeFilter(object):
-    db = VisitedPlaceDB()
 
     def __init__(self, user_id):
+        self.db = VisitedPlaceDB()
+        self.user_db = UserDB()
         self.user_id = user_id
+        self.place_db = PlaceDB()
 
-    def _get_visited_items(self):
-        visited_places = self.db.get_visited_places_count(self.user_id)
-        return self._create_place_dictionary(visited_places)
-
-    def _get_others_visited_palce(self):
-        others_visited_place = self.db.get_other_user_places(self.user_id)
-        visited_dict_array = []
-        for visited_place in others_visited_place:
-            place_dict = self._create_place_dictionary(visited_place)
-            visited_dict_array.append(place_dict)
-        return visited_dict_array
+    def _get_all_user_name(self):
+        return self.user_db.get_all_user_name()
 
     def _get_all_visited_places(self):
-        visited_place = self.db.get_all_visited_place()
-        return self._create_place_dictionary(visited_place)
+        visited_place = self.db.get_group_visited_place()
+        return self._create_user_dictionary(visited_place)
 
-    def _create_place_dictionary(self, visited_places):
+    def _create_user_dictionary(self, visited_places):
         place_dict = {}
         for visited_place in visited_places:
-            place_dict[visited_place.place.name] = visited_place.count
+            user_name = self.user_db.get_user_by_id(visited_place.user_id).name
+            place_name = self.place_db.get_place_by_db_id(visited_place.place_id).place_name
+            if user_name not in place_dict:
+                place_dict[user_name] = {}
+            place_dict[user_name][place_name] = visited_place.count
         return place_dict
 
     def get_similairty(self, person1_dict, person2_dict):
@@ -50,7 +49,7 @@ class CollaborativeFilter(object):
 
         return 1 / (1 + sqrt(sum(list_destance)))  # 各映画の気の合わなさの合計の逆比的な指標を返す
 
-    def get_recommend(self, person, top_N=10):
+    def get_recommend(self, user_id, top_N=10):
 
         totals = {}
         simSums = {}  # 推薦度スコアを入れるための箱を作っておく
@@ -60,18 +59,19 @@ class CollaborativeFilter(object):
         # # -> 各人との類似度、及び各人からの（まだ本人が見てない）映画の推薦スコアを計算するため
         # list_others = dataset.keys()
         # list_others.remove(person)
-        list_others = self._get_others_visited_palce()
+        list_others = list(map(lambda user: user.name,self._get_all_user_name()))
+        user_name = self.user_db.get_user_by_id(user_id).name
 
         for other in list_others:
             set_other = set(dataset[other])
-            set_person = set(dataset[person])
-            set_new_movie = set_other.difference(set_person)
+            set_person = set(dataset[user_name])
+            set_new_place = set_other.difference(set_person)
 
             # あるユーザと本人の類似度を計算(simは0~1の数字)
-            sim = self.get_similairty(person, other)
+            sim = self.get_similairty(dataset[user_name], dataset[other])
 
             # (本人がまだ見たことがない)映画のリストでFor分を回す
-            for item in set_new_movie:
+            for item in set_new_place:
                 # "類似度 x レビュー点数" を推薦度のスコアとして、全ユーザで積算する
                 totals.setdefault(item, 0)
                 totals[item] += dataset[other][item] * sim
@@ -80,8 +80,16 @@ class CollaborativeFilter(object):
                 simSums.setdefault(item, 0)
                 simSums[item] += sim
 
-        rankings = [(total / simSums[item], item) for item, total in totals.items()]
+        rankings = []
+        for item, total in totals.items():
+            if simSums[item] != 0:
+                rankings.append((total / simSums[item], item))
         rankings.sort()
         rankings.reverse()
 
-        return [i[1] for i in rankings][:top_N]
+        return [{i[1]: i[0]} for i in rankings][:top_N]
+
+if __name__ == '__main__':
+    cf = CollaborativeFilter(1)
+    print(cf._get_all_visited_places())
+

@@ -9,7 +9,7 @@ class User(db.Model):
 
 class UserDB(object):
     def get_user_by_id(self, id):
-        return db.session.query(User).filter(User.id == id)
+        return db.session.query(User).filter(User.id == id).one()
 
     def create_user(self, name, password):
         try:
@@ -24,6 +24,9 @@ class UserDB(object):
 
     def get_all_user(self):
         return db.session.query(User).all()
+
+    def get_all_user_name(self):
+        return db.session.query(User.name).all()
 
     @staticmethod
     def init():

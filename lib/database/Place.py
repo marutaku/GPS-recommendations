@@ -13,7 +13,7 @@ class PlaceDB(object):
     def check_place(self, place_name):
         return len(db.session.query(Place).filter(Place.place_name == place_name).all()) != 0
 
-    def get_place_by_id(self, place_id):
+    def  get_place_by_id(self, place_id):
         return db.session.query(Place).filter(Place.palce_id == place_id).all()
 
     def get_place_id(self, place_name):
@@ -23,6 +23,9 @@ class PlaceDB(object):
         place = Place(place_name = place_name, palce_id=place_id, category=category, description = description)
         db.session.add(place)
         db.session.commit()
+
+    def get_place_by_db_id(self, id):
+   		return db.session.query(Place).filter(Place.id == id).one()
 
     @staticmethod
     def init():

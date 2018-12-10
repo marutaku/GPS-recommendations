@@ -11,7 +11,8 @@ class VisitedPlace(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', onupdate='CASCADE', ondelete='CASCADE'))
     place_id = db.Column(db.Integer, db.ForeignKey('place.id', onupdate='CASCADE', ondelete='CASCADE'))
-    location_id = db.Column(db.Integer, db.ForeignKey('locations.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=True)
+    location_id = db.Column(db.Integer, db.ForeignKey('locations.id', onupdate='CASCADE', ondelete='CASCADE'),
+                            nullable=True)
     arrival_date = db.Column(db.DateTime, nullable=True)
     departure_date = db.Column(db.DateTime, nullable=True)
     visited_time = db.Column(db.Time, nullable=True)
@@ -59,10 +60,19 @@ class VisitedPlaceDB(object):
             .filter(VisitedPlace.user_id != user_id).all()
         return visited_place
 
-    def get_all_visited_place(self):
-        visited_place = db.session.query(VisitedPlace).all()
+    def get_group_visited_place(self):
+        visited_place = db.session.query(
+            VisitedPlace.user_id,
+            func.count(VisitedPlace.place_id).label('count'),
+            VisitedPlace.place_id,
+        ).group_by(VisitedPlace.user_id, VisitedPlace.place_id).all()
 
         return visited_place
+
+    def get_today_activity(self, start_date, end_date):
+        survive_user = db.session.query(VisitedPlace) \
+            .filter(VisitedPlace.create_at.between(start_date, end_date)).all()
+        return survive_user
 
     @staticmethod
     def init():

@@ -10,7 +10,7 @@ import requests
 
 def main():
     end_date = datetime.datetime.now()
-    start_date = end_date - datetime.timedelta(hours=1)
+    start_date = end_date - datetime.timedelta(days=1)
     print('='*20, 'BATCH START', '='*20)
     print('='*20, 'START DATE: {}'.format(start_date), '='*20)
     print('='*20, 'END DATE: {}'.format(end_date), '='*20)
