@@ -14,6 +14,7 @@ janome = "*"
 python-twitter = "*"
 jupyter = "*"
 cython = "*"
+uwsgi = "*"
 
 [requires]
 python_version = "3.5.1"
