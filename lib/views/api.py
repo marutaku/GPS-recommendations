@@ -42,7 +42,7 @@ def post_visited_place():
 def get_recommendation():
     user_id = request.json['user_id']
     cf = CollaborativeFilter(user_id)
-    recommend = cf.get_recommend(user_id, 30)
+    recommend = cf.get_recommend(user_id, -1)
     return jsonify({
         'result': recommend
     })

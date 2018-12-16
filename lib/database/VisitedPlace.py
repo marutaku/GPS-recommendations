@@ -1,9 +1,9 @@
 from lib.core import db
 from sqlalchemy import func
 from sqlalchemy.orm import relationship
-from datetime import datetime
+import datetime
 
-MISS_DEPARTURE_VALUE = datetime.strptime('4001-01-01 09:00:00', '%Y-%m-%d %H:%M:%S')
+MISS_DEPARTURE_VALUE = datetime.datetime.strptime('4001-01-01 09:00:00', '%Y-%m-%d %H:%M:%S')
 
 
 class VisitedPlace(db.Model):
@@ -60,11 +60,14 @@ class VisitedPlaceDB(object):
             .filter(VisitedPlace.user_id != user_id).all()
         return visited_place
 
-    def get_group_visited_place(self):
+    def get_group_visited_place(self, hours=8):
         visited_place = db.session.query(
             VisitedPlace.user_id,
             func.count(VisitedPlace.place_id).label('count'),
             VisitedPlace.place_id,
+        ).filter(
+            # 常在地を除外
+            VisitedPlace.visited_time <= datetime.timedelta(hours=hours)
         ).group_by(VisitedPlace.user_id, VisitedPlace.place_id).all()
 
         return visited_place
