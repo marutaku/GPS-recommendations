@@ -13,6 +13,11 @@ class MonitoringModel():
         all_user_set = set([user.id for user in all_user])
         print('All user: {}'.format(all_user_set))
         print('Survive user: {}'.format(survive_user_set))
-        return all_user_set - survive_user_set
+        dead_users = all_user_set - survive_user_set
+        dead_user_name = []
+        for dead_user_id in list(dead_users):
+            user_name = self.user_db.get_user_by_id(dead_user_id)
+            dead_user_name.append(user_name.name)
+        return dead_user_name
 
 

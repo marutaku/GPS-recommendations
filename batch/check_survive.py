@@ -20,7 +20,8 @@ def main():
 
         ## TODO slackに通知を送る
         if len(dead_user) != 0:
-            text = u"DEAD USER DETECTED!!! \n```\n {} \n```".format(dead_user)
+            dead_user_text = '\n'.join(dead_user)
+            text = u"DEAD USER DETECTED!!! \n```\n{}\n```".format(dead_user_text)
         else:
             text = u'NO USER IS DEAD'
         print(text)
