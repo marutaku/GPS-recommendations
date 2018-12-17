@@ -15,6 +15,7 @@ python-twitter = "*"
 jupyter = "*"
 cython = "*"
 uwsgi = "*"
+pandas = "*"
 
 [requires]
 python_version = "3.5.1"
