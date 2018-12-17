@@ -60,7 +60,7 @@ class VisitedPlaceDB(object):
             .filter(VisitedPlace.user_id != user_id).all()
         return visited_place
 
-    def get_group_visited_place(self, hours=8):
+    def get_group_visited_place(self, hours=8, minutes=10):
         visited_place = db.session.query(
             VisitedPlace.user_id,
             func.count(VisitedPlace.place_id).label('count'),
@@ -68,6 +68,9 @@ class VisitedPlaceDB(object):
         ).filter(
             # 常在地を除外
             VisitedPlace.visited_time <= datetime.timedelta(hours=hours)
+        ).filter(
+            #10分以上滞在した場所に限定する
+            VisitedPlace.visited_time >= datetime.timedelta(minutes=10)
         ).group_by(VisitedPlace.user_id, VisitedPlace.place_id).all()
 
         return visited_place

@@ -26,3 +26,23 @@ class Foursquare(object):
             return result
         except requests.exceptions.HTTPError as e:
             print(e)
+
+    def get_recommend_place(self, latitude, longitude):
+        url = urljoin(self.BASE_URL, 'explore')
+        location = '{lat},{long}'.format(lat=latitude, long=longitude)
+        now = datetime.datetime.now()
+        params = dict(
+            ll=location,
+            radius=1000,
+            limit=30,
+            v=now.strftime('%Y%m%d'),
+            client_id=FOURSQUARE_CLIENT_ID,
+            client_secret=FOURSQUARE_SECRET
+        )
+        try:
+            req = requests.get(url, params=params)
+            result = json.loads(req.text)
+            print(result)
+            return result
+        except requests.exceptions.HTTPError as e:
+            print(e)

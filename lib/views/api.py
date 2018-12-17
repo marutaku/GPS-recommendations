@@ -3,7 +3,7 @@ from lib.models.places import Place
 from lib.models.Location import LocationModel
 from lib.models.Monitoring import MonitoringModel
 from datetime import datetime
-from lib.models.CollaborativeFiltering import CollaborativeFilter
+from lib.models.Recommend import RecommendModel
 
 api_bp = Blueprint('api', __name__, url_prefix='/api')
 
@@ -41,10 +41,12 @@ def post_visited_place():
 @api_bp.route('recommend', methods=['POST'])
 def get_recommendation():
     user_id = request.json['user_id']
-    cf = CollaborativeFilter(user_id)
-    recommend = cf.get_recommend(user_id, -1)
+    latitude = request.json['latitude']
+    longitude = request.json['longitude']
+    recommend = RecommendModel()
+    result = recommend.get_recommend(user_id, latitude, longitude)
     return jsonify({
-        'result': recommend
+        'result': result
     })
 
 

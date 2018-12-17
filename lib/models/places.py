@@ -57,3 +57,6 @@ class Place(object):
         location_id = self.location_db.insert_location(user_id, latitude, longitude)
         self.visited_db.insert_visited_place(user_id, place.id, location_id, arrival_date, departure_date)
         return
+
+    def get_place_by_name(self, name):
+        return self.place_db.get_place_by_name(name)

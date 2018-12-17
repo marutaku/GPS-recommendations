@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block body %}
+<div style="margin: auto;">
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>場所名</th>
+                <th>推薦日時</th>
+                <th>リンク</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for item in histories %}
+                <tr>
+                    <td>{{ item.place.place_name }}</td>
+                    <td>{{ item.create_at }}</td>
+                    {% if item.is_reviewed %}
+                        <td>レビュー済</td>
+                    {% else %}
+                        <td><a href="{{ url_for('users.render_review_page', id=item.id) }}">アンケート回答</a></td>
+                    {% endif  %}
+                </tr>
+                <!--<tr>-->
+                    <!--<td>{{ item }}</td>-->
+                    <!--<td>{{ item }}</td>-->
+                    <!--<td>{{ item }}</td>-->
+                <!--</tr>-->
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

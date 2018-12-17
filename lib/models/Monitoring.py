@@ -1,10 +1,12 @@
 from lib.database.VisitedPlace import VisitedPlaceDB
 from lib.database.User import UserDB
+from lib.database.Monitoring import MonitoringDB
 
 class MonitoringModel():
     def __init__(self):
         self.visited_place = VisitedPlaceDB()
         self.user_db = UserDB()
+        self.monitoring = MonitoringDB()
 
     def check_dead_user(self, start_date, end_date):
         survive_user = self.visited_place.get_today_activity(start_date, end_date)

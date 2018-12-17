@@ -24,6 +24,9 @@ class PlaceDB(object):
         db.session.add(place)
         db.session.commit()
 
+    def get_place_by_name(self, name):
+    	return db.session.query(Place).filter(Place.place_name == name).all()
+
     def get_place_by_db_id(self, id):
    		return db.session.query(Place).filter(Place.id == id).one()
 

@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block body %}
+{% set question_texts=[
+'良かった',
+'どちらかといえば良かった',
+'どちらでもない',
+'どちらかといえば良くなかった',
+'良くなかった'
+] %}
+{% macro generateCheckbox(name, question) -%}
+<div class="form-group">
+    <label for="{{name}}-label">{{question}}</label>
+    {% for text in question_texts %}
+    <div class="form-check" id="{{name}}-label">
+        <input name="{{name}}" class="form-check-input" type="radio" value="{{loop.index}}" id="{{name}}-input-{{loop.index}}"
+               required>
+        <label class="form-check-label" for="{{name}}-input-{{loop.index}}">
+            {{text}}
+        </label>
+    </div>
+    {% endfor %}
+</div>
+{%- endmacro %}
+<div style="width: 80%;margin: auto;">
+    <form action="{{url_for('users.post_review', id=recommend.id)}}" method="post">
+        {{ generateCheckbox('time_review', 'Q1. 今回のレコメンドは適切な時間に行なわれましたか?') }}
+        {{ generateCheckbox('preference_review', 'Q2. レコメンドされた場所は興味の持てるものでしたか?') }}
+        {{ generateCheckbox('distance_review', 'Q3. レコメンドされた場所は行こうと思える距離でしたか?') }}
+        {{ generateCheckbox('total_review', 'Q4. 今回のレコメンドは、自分にとって有用なものでしたか?') }}
+        <button type="submit" class="btn btn-primary">送信</button>
+    </form>
+</div>
+{% endblock %}
