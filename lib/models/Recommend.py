@@ -65,7 +65,7 @@ class RecommendModel(object):
 
     def get_recommend_today(self, user_id):
         end_date = datetime.datetime.now()
-        start_date = end_date - datetime.timedelta(days=1)
+        start_date = datetime.datetime.now().replace(hour=0,minute=0,second=0,microsecond=0)
         return self.recommend_db.get_recommend_between(user_id, start_date, end_date)
 
 
