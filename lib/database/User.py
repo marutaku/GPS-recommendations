@@ -6,6 +6,7 @@ class User(db.Model):
     name = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
     active_hour = db.Column(db.Integer, default=None)
+    slack_id = db.Column(db.String(30), default=None)
     create_at = db.Column(db.DateTime, server_default=db.text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))
 
 class UserDB(object):
@@ -28,6 +29,7 @@ class UserDB(object):
 
     def get_all_user_name(self):
         return db.session.query(User.name).all()
+
 
     @staticmethod
     def init():

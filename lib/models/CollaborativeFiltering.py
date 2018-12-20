@@ -2,6 +2,7 @@ from lib.database.VisitedPlace import VisitedPlaceDB
 from lib.database.Place import PlaceDB
 from lib.database.User import UserDB
 from math import sqrt
+from lib.config import IGNORE_USER_LIST
 
 
 class CollaborativeFilter(object):
@@ -63,6 +64,7 @@ class CollaborativeFilter(object):
         user_name = self.user_db.get_user_by_id(user_id).name
 
         for other in list_others:
+            if other in IGNORE_USER_LIST: continue;
             set_other = set(dataset[other])
             set_person = set(dataset[user_name])
             set_new_place = set_other.difference(set_person)

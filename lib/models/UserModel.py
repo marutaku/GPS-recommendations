@@ -34,3 +34,6 @@ class UserModel(object):
     def get_all_visited_place(self, user_id):
         visited_places = self.visited_db.get_visited_places(user_id)
         return visited_places
+
+    def get_active_hour(self, user_id):
+        return self.user_db.get_user_by_id(user_id).active_hour

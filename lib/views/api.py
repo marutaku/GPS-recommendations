@@ -34,6 +34,7 @@ def post_visited_place():
     print('====departureDate: {} ====='.format(departure_date_str))
     print('Request catch.  user_id: {}'.format(user_id))
     place_model.insert_visited_place(user_id, latitude, longitude, arrival_date, departure_date)
+
     return jsonify({
         'place': 'ok'
     })
@@ -46,7 +47,8 @@ def get_recommendation():
     recommend = RecommendModel()
     result = recommend.get_recommend(user_id, latitude, longitude)
     return jsonify({
-        'result': result
+        'result': result,
+        'recommend': "True"
     })
 
 

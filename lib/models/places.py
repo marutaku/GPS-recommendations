@@ -1,9 +1,16 @@
 from lib.database.VisitedPlace import VisitedPlaceDB
 from lib.database.Location import LocationDB
 from lib.database.Place import PlaceDB
+from lib.database.Recommend import RecommendDB
+from lib.models.UserModel import UserModel
+from lib.models.Recommend import RecommendModel
+from lib.database.User import UserDB
 from lib.util.geo import GEOUtil
 from lib.models.Foursquare import Foursquare
-import logging
+from lib.util.Slack import SlackUtil
+import datetime, urllib
+
+GOOGLE_MAP_BASE_URL = 'https://maps.google.co.jp/maps?q='
 
 
 class Place(object):
@@ -13,6 +20,10 @@ class Place(object):
         self.location_db = LocationDB()
         self.place_db = PlaceDB()
         self.foursquare = Foursquare()
+        self.user_model = UserModel()
+        self.recommend = RecommendModel()
+        self.user_db = UserDB()
+        self.recommend_db = RecommendDB()
 
     def detect_place(self, user_id):
         [current_location, prev_location] = self.location_db.get_location_history(user_id, limit=2)
@@ -44,6 +55,7 @@ class Place(object):
         return place
 
     def insert_visited_place(self, user_id, latitude, longitude, arrival_date, departure_date):
+        user = self.user_db.get_user_by_id(user_id)
         place_json = self.fetch_place(latitude, longitude)
         print('=' * 30)
         print(place_json)
@@ -56,7 +68,29 @@ class Place(object):
             place = places[0]
         location_id = self.location_db.insert_location(user_id, latitude, longitude)
         self.visited_db.insert_visited_place(user_id, place.id, location_id, arrival_date, departure_date)
-        return
-
-    def get_place_by_name(self, name):
-        return self.place_db.get_place_by_name(name)
+        now = datetime.datetime.now()
+        if self.user_model.get_active_hour(user_id) <= now.hour and len(
+                self.recommend.get_recommend_today(user_id)) == 0:
+            # 推薦を行う
+            recommend_place = self.recommend.get_recommend(user_id, latitude, longitude, location_id)
+            place_name = list(recommend_place.keys())[0]
+            recommend_latitude = list(recommend_place.values())[0]['latitude']
+            recommend_longitude = list(recommend_place.values())[0]['longitude']
+            url = '{url}{lat},{lng}'.format(
+                url=GOOGLE_MAP_BASE_URL,
+                lat=recommend_latitude,
+                lng=recommend_longitude
+            )
+            text = '''日時: {date},
+現在の緯度,経度: {lat}, {lng}, 
+推薦された場所: {place}
+GOOGLE MAPはこちら: {url}
+アンケートはこちらから: {review}'''.format(
+                date=datetime.datetime.now(),
+                lat=latitude,
+                lng=longitude,
+                place=place_name,
+                url=url,
+                review='http://133.2.113.134/'
+            )
+            SlackUtil.post_slack(user.slack_id, text)

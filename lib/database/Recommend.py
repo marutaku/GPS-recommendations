@@ -37,6 +37,12 @@ class RecommendDB(object):
         target.is_reviewed = status
         db.session.commit()
 
+    def get_recommend_between(self, user_id, start_date, end_date):
+        return db.session.query(Recommend)\
+            .filter(Recommend.create_at <= end_date)\
+            .filter(Recommend.create_at > start_date)\
+            .filter(Recommend.user_id == user_id).all()
+
     @staticmethod
     def init():
         db.create_all()
