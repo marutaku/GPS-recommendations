@@ -42,7 +42,6 @@ class Foursquare(object):
         try:
             req = requests.get(url, params=params)
             result = json.loads(req.text)
-            print(result)
             return result
         except requests.exceptions.HTTPError as e:
             print(e)
