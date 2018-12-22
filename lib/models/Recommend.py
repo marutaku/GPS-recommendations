@@ -45,6 +45,7 @@ class RecommendModel(object):
             result_item = {i: cf_recommend_dict[i]}
             result_list.append(result_item)
         result_list.sort(key=lambda x: list(list(x.values())[0].values())[0], reverse=True)
+        if len(result_list) == 0: return None
         recommend_item = result_list[0]
         recommend_place_name = list(recommend_item.keys())[0]
         place = self.place_db.get_place_by_name(recommend_place_name)[0]

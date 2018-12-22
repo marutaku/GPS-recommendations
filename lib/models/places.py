@@ -73,6 +73,7 @@ class Place(object):
                 self.recommend.get_recommend_today(user_id)) == 0:
             # 推薦を行う
             recommend_place = self.recommend.get_recommend(user_id, latitude, longitude, location_id)
+            if not recommend_place: return
             place_name = list(recommend_place.keys())[0]
             recommend_latitude = list(recommend_place.values())[0]['latitude']
             recommend_longitude = list(recommend_place.values())[0]['longitude']
