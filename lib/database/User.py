@@ -27,6 +27,11 @@ class UserDB(object):
     def get_all_user(self):
         return db.session.query(User).all()
 
+    def update_password(self, username, hashed_password):
+        user = db.session.query(User).filter(User.name == username).one()
+        user.password = hashed_password
+        db.session.commit()
+
     def get_all_user_name(self):
         return db.session.query(User.name).all()
 

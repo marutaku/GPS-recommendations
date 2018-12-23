@@ -25,22 +25,35 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 {% if session.user_name %}
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{url_for('users.user_index')}}">Home <span class="sr-only"></span></a>
-
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{url_for('users.render_recommend_history')}}">Recommend<span class="sr-only"></span></a>
-                    </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{url_for('users.user_index')}}">Home <span class="sr-only"></span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{url_for('users.render_recommend_history')}}">Recommend<span
+                            class="sr-only"></span></a>
+                </li>
                 {% else %}
                 <li class="nav-item active">
-                        <a class="nav-link" href="{{url_for('top.index')}}">Home <span class="sr-only"></span></a>
-                    {% endif %}
+                    <a class="nav-link" href="{{url_for('top.index')}}">Home<span class="sr-only"></span></a>
                 </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{url_for('top.register_page')}}">Register<span class="sr-only"></span></a>
+                </li>
+                {% endif %}
+
             </ul>
         </div>
     </nav>
 </header>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li class="{{ category }}">{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
 <div style="position: relative; top: 50px">
     {% block body %}{% endblock %}
 </div>

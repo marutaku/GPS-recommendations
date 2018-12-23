@@ -25,6 +25,10 @@ class UserModel(object):
             return True
         elif is_user != 0:
             raise Exception('ユーザ名はすでに存在しています')
+    def update_password(self, username, password):
+        hashed_password = self.hash_password(password)
+        self.user_db.update_password(username, hashed_password)
+
 
     def hash_password(self, password):
         md5 = hashlib.md5()

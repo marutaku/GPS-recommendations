@@ -15,9 +15,10 @@
             <input type="password" class="form-control" id="password1" placeholder="Password" name="password">
         </div>
         <button type="submit" class="btn btn-primary">Login</button>
+            <p>or</p>
+        <button type="button" class="btn btn-success" onclick="window.location = '{{url_for("top.render_update_password")}}'">パスワード変更</button>
+
     </form>
-    <p>or</p>
-        <button type="submit" class="btn btn-success" onclick="window.location = '{{url_for("top.register_page")}}'">Register</button>
 </div>
 
 {% endblock %}

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session, g
+from flask import Blueprint, render_template, request, redirect, url_for, session, g, flash
 from lib.models.UserModel import UserModel
 
 top_bp = Blueprint('top', __name__, url_prefix='/')
@@ -48,3 +48,20 @@ def login():
         session['user_name'] = user.name
         session['user_id'] = user.id
         return redirect(url_for('users.user_index'))
+
+@top_bp.route('/reset')
+def render_update_password():
+    return render_template('update_password.html')
+
+@top_bp.route('/reset', methods=['POST'])
+def update_password():
+    user_name = request.form['username']
+    new_password = request.form['password']
+    new_password2 = request.form['password_again']
+    if new_password == new_password2:
+        user_model.update_password(user_name, new_password)
+        flash('パスワードが変更されました')
+        return redirect(url_for('top.index'))
+    else:
+        flash('パスワードが一致しません', 'error')
+        return render_template('update_password.html')
