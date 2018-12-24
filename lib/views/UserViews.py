@@ -16,6 +16,7 @@ def user_index():
 @user_bp.route('/logout', methods=['GET'])
 def logout():
     session.pop('user_id')
+    session.pop('user_name')
     return redirect(url_for('top.index'))
 
 @login_required

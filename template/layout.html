@@ -24,7 +24,7 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                {% if session.user_name %}
+                {% if session.user_id %}
                 <li class="nav-item active">
                     <a class="nav-link" href="{{url_for('users.user_index')}}">Home <span class="sr-only"></span></a>
                 </li>
@@ -32,12 +32,13 @@
                     <a class="nav-link" href="{{url_for('users.render_recommend_history')}}">Recommend<span
                             class="sr-only"></span></a>
                 </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{url_for('users.logout')}}">Logout<span
+                            class="sr-only"></span></a>
+                </li>
                 {% else %}
                 <li class="nav-item active">
                     <a class="nav-link" href="{{url_for('top.index')}}">Home<span class="sr-only"></span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{url_for('top.register_page')}}">Register<span class="sr-only"></span></a>
                 </li>
                 {% endif %}
 
