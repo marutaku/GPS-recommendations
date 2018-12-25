@@ -7,7 +7,7 @@ class SlackUtil(object):
     def post_slack(user, text):
         print('='*30, 'REQUEST TO SLACK WEBHOOK', '='*30)
         payload = {
-            "channel": user,
+            "channel_id": user,
             "username": "webhookbot",
             "text": text,
             "icon_emoji": ":ghost:"
