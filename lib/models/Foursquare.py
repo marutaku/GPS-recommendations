@@ -18,7 +18,8 @@ class Foursquare(object):
             limit=5,
             v=now.strftime('%Y%m%d'),
             client_id=FOURSQUARE_CLIENT_ID,
-            client_secret=FOURSQUARE_SECRET
+            client_secret=FOURSQUARE_SECRET,
+            categoryId='4d4b7105d754a06374d81259'
         )
         try:
             req = requests.get(url, params=params)
